@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('features', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->text('unity')->nullable();
+            $table->text('unit')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

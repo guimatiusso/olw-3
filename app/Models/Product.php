@@ -17,7 +17,6 @@ class Product extends Model
         'category_id',
         'name',
         'slug',
-        'description',
         'techinical_description',
     ];
 
