@@ -13,69 +13,57 @@
                 </dl>
 
                 <x-checkout.product-list>
-                    <x-checkout.product-item
-                        name="High Wall Tote"
-                        image="https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-01.jpg"
-                        price="49.99"
-                        :features="[
-                                '100% cotton',
-                                'Imported',
-                            ]"
-                    />
+                    @foreach($cart['skus'] as $sku)
+                        <x-checkout.product-item
+                            :name="$sku['name']"
+                            image="https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-01.jpg"
+                            :price="$sku['price']"
+                            :features="collect($sku['features'])->map(fn($feauture) => $feauture['name']. ': ' .$feauture['pivot']['value'])"
+                            :quantity="$sku['pivot']['quantity']"
+                        />
+                    @endforeach
                 </x-checkout.product-list>
 
                 <dl class="space-y-6 border-t border-white border-opacity-10 pt-6 text-sm font-medium">
-                    <x-checkout.summary-item title="Subtotal" :price="49.99" />
-                    <x-checkout.summary-item title="Frete" :price="20.00" />
-                    <x-checkout.summary-item title="Total" :price="69.99" :is-last="true" />
+                    <x-checkout.summary-item title="Subtotal" :value="$cart['total']" />
+                    <x-checkout.summary-item title="Frete" value="0" />
+                    <x-checkout.summary-item title="Total" :value="$cart['total']" :is-last="true" />
                 </dl>
             </div>
         </section>
 
         <section
             aria-labelledby="payment-and-shipping-heading"
-            class="py-6 lg:col-start-1 lg:row-start-1 lg:mx-auto lg:max-w-lg lg:w-full lg:pb-24 lg:pt-0"
-        >
-            <form>
-                <div class="mx-auto max-w-2xl px-4 lg:max-w-none lg:px-0">
-                    <x-section-title title="Informações de contato" />
-
-                    <div class="mt-6">
-                        <x-input-label for="email-adress" value="E-mail"/>
-                        <div class="mt-1">
-                            <x-text-input
-                                type="email" id="email-adress" name="email" autocomplete="email" />
-                        </div>
+            class="py-6 lg:col-start-1 lg:row-start-1 lg:mx-auto lg:max-w-lg lg:w-full lg:pb-24 lg:pt-0">
+            <div class="mx-auto max-w-2xl px-4 lg:max-w-none lg:px-0">
+                <div>
+                    <div class="flex flex-row items-center text-white">
+                        <nav class="flex mb-4" aria-label="Breadcrumb">
+                            <ol class="text-xs inline-flex items-center space-x-1 md:space-x-3">
+                                <li @class((['font-bold text-lg' => $step === CheckoutStepsEnum::INFORMATION->value]))>
+                                    <span>{{CheckoutStepsEnum::INFORMATION->getName()}}</span>
+                                </li>
+                                <span class="text-sm text-white font-bold">&gt</span>
+                                <li @class((['font-bold text-lg' => $step === CheckoutStepsEnum::SHIPPING->value]))>
+                                    <span>{{CheckoutStepsEnum::SHIPPING->getName()}}</span>
+                                </li>
+                                <span class="text-sm text-white font-bold">&gt</span>
+                                <li @class((['font-bold text-lg' => $step === CheckoutStepsEnum::PAYMENT->value]))>
+                                    <span>{{CheckoutStepsEnum::PAYMENT->getName()}}</span>
+                                </li>
+                            </ol>
+                        </nav>
                     </div>
 
-                    <div class="mt-10">
-                        <x-section-title title="Detalhes do pagamento" />
-
-                        <div class="mt-6 grid grid-cols-3 gap-x-4 gap-y-6 sm:grid-cols-4">
-                            <div class="col-span-3 sm:col-span-4">
-                                <x-input-label for="card-number" value="Número do cartão"/>
-                                <div class="mt-1">
-                                    <x-text-input type="text" id="card-number" name="card-number" placeholder="Número do cartão" />
-                                </div>
-                            </div>
-
-                            <div class="col-span-2 sm:col-span-3">
-                                <x-input-label for="expiration-date" value="Data de validade"/>
-                                <div class="mt-1">
-                                    <x-text-input type="text" id="expiration-date" name="expiration-date" placeholder="MM/AA" />
-                                </div>
-                            </div>
-
-                            <div>
-                                <x-input-label for="card-number" value="CVV"/>
-                                <div class="mt-1">
-                                    <x-text-input type="text" id="cvv" name="cvv" placeholder="CVV" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @if($step == CheckoutStepsEnum::INFORMATION->value)
+                        <x-checkout.information-form />
+                    @elseif($step == CheckoutStepsEnum::SHIPPING->value)
+                        <x-checkout.shipping-form :user="$user" :address="$address" />
+                    @elseif($step == CheckoutStepsEnum::PAYMENT->value)
+                        <x-checkout.payment-form :user="$user" :address="$address"/>
+                    @endif
                 </div>
-            </form>
+            </div>
         </section>
     </div>
 </div>
