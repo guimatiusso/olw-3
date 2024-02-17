@@ -11,14 +11,15 @@ use Livewire\Component;
 class Checkout extends Component
 {
     public array $cart = [];
-    public int $step = CheckoutStepsEnum::SHIPPING->value;
-    public int $method = 1;
+    public int $step = CheckoutStepsEnum::PAYMENT->value;
+    public int|null $method = null;
     public UserForm $user;
     public AddressForm $address;
 
     public function mount(CheckoutService $checkoutService)
     {
         $this->cart = $checkoutService->loadCart();
+        $this->user->email = config('payment.mercadopago.buyer_email');
     }
 
     public function render()
@@ -40,5 +41,16 @@ class Checkout extends Component
     public function findAddress()
     {
         $this->address->findAddress();
+    }
+
+    public function creditCardPayment(CheckoutService $checkoutService, $data)
+    {
+        dd($data);
+//        $checkoutService->creditCardPayment($data);
+    }
+
+    public function pixOrBankSlipPayment($data)
+    {
+        dd($data);
     }
 }

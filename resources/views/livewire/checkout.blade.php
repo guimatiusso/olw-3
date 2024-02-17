@@ -1,4 +1,4 @@
-<div class="bg-tertiary-900">
+<div class="bg-tertiary-900" x-data="checkout()">
     <div class="fixed left-0 top-0 hidden lg:block h-full w-1/2 bg-tertiary-900"></div>
     <div class="fixed right-0 top-0 hidden lg:block h-full w-1/2 bg-tertiary-800"></div>
 

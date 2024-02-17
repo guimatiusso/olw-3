@@ -11,4 +11,7 @@ class UserForm extends Form
     public $email = '';
     #[Validate('required|min:3|max:255')]
     public $name = '';
+
+    #[Validate('nullable|min:3|cpf')]
+    public $cpf = '';
 }
