@@ -33,4 +33,20 @@ enum OrderStatusEnum: int
             default => 'Status not found'
         };
     }
+
+    public static function parse($status)
+    {
+        switch ($status) {
+            case 'approved':
+                return self::PAID;
+            case 'pending':
+                return self::PENDING;
+            case 'rejected':
+                return self::REJECTED;
+            case 'cancelled':
+                return self::CANCELED;
+            default:
+                return self::CANCELED;
+        }
+    }
 }

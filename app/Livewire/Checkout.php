@@ -3,9 +3,12 @@
 namespace App\Livewire;
 
 use App\Enums\CheckoutStepsEnum;
+use App\Exceptions\PaymentException;
 use App\Livewire\Forms\AddressForm;
 use App\Livewire\Forms\UserForm;
 use App\Services\CheckoutService;
+use App\Services\OrderService;
+use App\Services\UserService;
 use Livewire\Component;
 
 class Checkout extends Component
@@ -45,12 +48,30 @@ class Checkout extends Component
 
     public function creditCardPayment(CheckoutService $checkoutService, $data)
     {
-        dd($data);
-//        $checkoutService->creditCardPayment($data);
+        try {
+            $payment = $checkoutService->creditCardPayment($data, $this->user->all(), $this->address->all());
+        } catch (PaymentException $e) {
+            $this->addError('payment', $e->getMessage());
+        } catch (\Exception $e) {
+            $this->addError('payment', $e->getMessage());
+        }
     }
 
-    public function pixOrBankSlipPayment($data)
+    public function pixOrBankSlipPayment(
+        CheckoutService $checkoutService,
+        UserService $userService,
+        OrderService $orderService,
+        $data
+    )
     {
-        dd($data);
+        try {
+            $payment = $checkoutService->pixOrBankSlipPayment($data, $this->user->all(), $this->address->all());
+            $user = $userService->store($this->user->all(), $this->address->all());
+            $order = $orderService->update($this->cart['id'], $payment, $user, $this->address->all());
+        } catch (PaymentException $e) {
+            $this->addError('payment', $e->getMessage());
+        } catch (\Exception $e) {
+            $this->addError('payment', $e->getMessage());
+        }
     }
 }
