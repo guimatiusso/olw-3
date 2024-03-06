@@ -11,7 +11,7 @@
             <span class="text-sm text-white whitespace-nowrap">Send to: </span>
             <span class="text-sm text-white">
                 {{ $address->zipcode }}
-                {{ $address->street }}
+                {{ $address->address }}
                 {{ $address->number }}
                 {{ $address->district }}
                 {{ $address->complement }}

@@ -184,6 +184,8 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         'CheckoutStepsEnum' => \App\Enums\CheckoutStepsEnum::class,
         'OrderStatusEnum' => \App\Enums\OrderStatusEnum::class,
+        'PaymentMethodEnum' => \App\Enums\PaymentMethodEnum::class,
+        'PaymentStatusEnum' => \App\Enums\PaymentStatusEnum::class,
     ])->toArray(),
 
 ];

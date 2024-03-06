@@ -41,12 +41,12 @@
             </div>
 
             <div class="col-span-2 sm:col-span-3">
-                <x-input-label for="street" value="Street"/>
+                <x-input-label for="address" value="Address"/>
                 <div class="mt-1">
-                    <x-text-input type="text" id="street" name="street" placeholder="Street" wire:model="address.street"/>
+                    <x-text-input type="text" id="address" name="address" placeholder="Address" wire:model="address.address"/>
                 </div>
                 <div>
-                    @error('address.street') <span class="text-sm text-red-600">{{ $message }}</span> @enderror
+                    @error('address.address') <span class="text-sm text-red-600">{{ $message }}</span> @enderror
                 </div>
             </div>
 

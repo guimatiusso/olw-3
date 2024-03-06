@@ -12,7 +12,7 @@ class AddressForm extends Form
     public $zipcode = '';
 
     #[Validate('required|string|max:255')]
-    public $street = '';
+    public $address = '';
 
     #[Validate('required|string|max:2')]
     public $state = '';
@@ -40,7 +40,7 @@ class AddressForm extends Form
             return;
         }
 
-        $this->street = $address->logradouro;
+        $this->address = $address->logradouro;
         $this->state = $address->uf;
         $this->city = $address->localidade;
         $this->district = $address->bairro;

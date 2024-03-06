@@ -11,7 +11,7 @@
             <span class="text-sm text-white opacity-10 whitespace-nowrap w-[70px]">Enviar para</span>
             <span class="text-sm text-white">
                     {{ $address->zipcode }},
-                    {{ $address->street }},
+                    {{ $address->address }},
                     {{ $address->number }} -
                     {{ $address->district }},
                     {{ $address->complement }}.

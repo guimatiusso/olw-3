@@ -90,7 +90,7 @@ class CheckoutService
                 "number" => $user['cpf']
             ],
             'address' => [
-                'street_name' => $adress['street'],
+                'street_name' => $adress['address'],
                 'street_number' => $adress['number'],
                 'zip_code' => $adress['zipcode'],
                 'neighborhood' => $adress['district'],
