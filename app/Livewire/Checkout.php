@@ -17,7 +17,7 @@ use Livewire\Component;
 class Checkout extends Component
 {
     public array $cart = [];
-    public int $step = CheckoutStepsEnum::PAYMENT->value;
+    public int $step = CheckoutStepsEnum::INFORMATION->value;
     public int|null $method = null;
     public UserForm $user;
     public AddressForm $address;
@@ -57,7 +57,7 @@ class Checkout extends Component
     )
     {
         try {
-            $payment = $checkoutService->pixOrBankSlipPayment($data, $this->user->all(), $this->address->all());
+            $payment = $checkoutService->creditCardPayment($data, $this->user->all(), $this->address->all());
             $user = $userService->store($this->user->all(), $this->address->all());
             $order = $orderService->update($this->cart['id'], $payment, $user, $this->address->all());
 

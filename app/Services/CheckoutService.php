@@ -28,7 +28,7 @@ class CheckoutService
                 }
             })->first();
 
-        if (!$cart && config('app.env') == 'local') {
+        if (!$cart && config('app.env') == 'local' || config('app.env') == 'testing') {
             $seeder = new OrderSeeder();
             $seeder->run(session()->getId());
             return $this->loadCart();
@@ -53,7 +53,7 @@ class CheckoutService
         throw_if(
             !$payment->id || $payment->status === 'rejected',
             PaymentException::class,
-                $payment?->error?->message ?? 'Verifique os dados do cartão'
+                $payment?->error?->message ?? 'Check card data'
         );
 
         return $payment;
@@ -72,7 +72,7 @@ class CheckoutService
         throw_if(
             !$payment->id || $payment->status === 'rejected',
             PaymentException::class,
-            $payment?->error?->message ?? 'Verifique os dados do cartão'
+            $payment?->error?->message ?? 'Check card data'
         );
 
         return $payment;

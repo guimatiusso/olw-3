@@ -7,7 +7,7 @@ use Illuminate\Http\Response;
 
 class PaymentException extends Exception
 {
-    protected $message = 'Verifique os dados do cartão de crédito e tente novamente.';
+    protected $message = 'Check the card data and try again.';
     protected $code = Response::HTTP_BAD_REQUEST;
 
     public function render()
